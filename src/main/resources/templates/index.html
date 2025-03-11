@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 400px;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 25px;
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, #28a745, #218838);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .logout-btn {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+        }
+        .logout-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .container p {
+            font-size: 16px;
+            color: #666;
+            margin-top: 10px;
+        }
+        .icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+            color: #6e8efb;
+        }
+    </style>
+</head>
+<body>
+<div class="container" sec:authorize="!isAuthenticated()">
+    <i class="fas fa-user-lock icon"></i>
+    <h2>Welcome! Please log in</h2>
+    <p>Securely access your account using our trusted authentication system.</p>
+    <a th:href="@{/oauth2/authorization/okta}" class="btn">
+        <i class="fas fa-sign-in-alt"></i> Log In
+    </a>
+</div>
+
+<div class="container" sec:authorize="isAuthenticated()">
+    <i class="fas fa-user-check icon"></i>
+    <h2>You are logged in!</h2>
+    <p>Welcome back! Enjoy a secure and smooth experience.</p>
+    <form th:action="@{/logout}" method="post">
+        <button type="submit" class="btn logout-btn">
+            <i class="fas fa-sign-out-alt"></i> Log Out
+        </button>
+    </form>
+</div>
+</body>
+</html>
